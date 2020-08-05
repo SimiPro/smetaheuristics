@@ -4,11 +4,13 @@ project(smetaheuristics
         LANGUAGES CXX)
 
 
+set(BUILD_EXAMPLES ON)
+
 
 
 add_library(${PROJECT_NAME} INTERFACE)
 
-target_sources(${PROJECT_NAME} INTERFACE ${PROJECT_SOURCE_DIR}/include/sim_annealing.h)
+target_sources(${PROJECT_NAME} INTERFACE ${PROJECT_SOURCE_DIR}/include/sim_annealing.h ${PROJECT_SOURCE_DIR}/include/random_opt.h )
 
 
 target_include_directories(
