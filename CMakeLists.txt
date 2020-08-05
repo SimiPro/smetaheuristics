@@ -4,49 +4,20 @@ project(smetaheuristics
         LANGUAGES CXX)
 
 
-include(cmake/tools.cmake)
 
-# ---- Add dependencies via CPM ----
-# see https://github.com/TheLartians/CPM.cmake for more info
 
-include(cmake/CPM.cmake)
+add_library(${PROJECT_NAME} INTERFACE)
 
-# PackageProject.cmake will be used to make our target installable
-CPMAddPackage(
-        NAME PackageProject.cmake
-        GITHUB_REPOSITORY TheLartians/PackageProject.cmake
-        VERSION 1.0
+target_sources(${PROJECT_NAME} INTERFACE ${PROJECT_SOURCE_DIR}/include/sim_annealing.h)
+
+
+target_include_directories(
+        ${PROJECT_NAME}
+        INTERFACE ${PROJECT_SOURCE_DIR}/include
 )
 
+target_compile_features(${PROJECT_NAME} INTERFACE cxx_std_17)
 
-# ---- Add source files ----
-
-FILE(GLOB_RECURSE headers CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/include/*.h")
-
-# ---- Create library ----
-
-add_library(smetaheuristicsHeaders EXCLUDE_FROM_ALL ${headers})
-set_target_properties(smetaheuristicsHeaders PROPERTIES LINKER_LANGUAGE CXX)
-
-add_library(smetaheuristics INTERFACE)
-set_target_properties(smetaheuristics PROPERTIES INTERFACE_COMPILE_FEATURES cxx_std_17)
-
-# beeing a cross-platform target, we enforce enforce standards conformance on MSVC
-target_compile_options(smetaheuristics INTERFACE "$<$<BOOL:${MSVC}>:/permissive->")
-
-target_include_directories(smetaheuristics
-        INTERFACE
-        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-        $<INSTALL_INTERFACE:include/${PROJECT_NAME}-${PROJECT_VERSION}>
-        )
-
-# ---- Create an installable target ----
-# this allows users to install and find the library via `find_package()`.
-
-packageProject(
-        NAME ${PROJECT_NAME}
-        VERSION ${PROJECT_VERSION}
-        BINARY_DIR ${PROJECT_BINARY_DIR}
-        INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include
-        INCLUDE_DESTINATION include/${PROJECT_NAME}-${PROJECT_VERSION}
-)
+if (BUILD_EXAMPLES)
+    add_subdirectory(examples)
+endif ()

@@ -2,6 +2,10 @@
 
 #include <iostream>
 
-void testliii() {
-    std::cout << "hellowlimowli" << std::endl;
+
+namespace smeta {
+
+    void testliii() {
+        std::cout << "hellowlimowli" << std::endl;
+    }
 }
