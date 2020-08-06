@@ -27,6 +27,7 @@ namespace smeta {
     }
 
     double approx_acceptance(const double delta, const double T) {
+        if (delta <= 0) return 1.0;
         return std::exp(-delta / T);
     }
 
@@ -37,7 +38,7 @@ namespace smeta {
         for (int k = 0; k < k_max; k++) {
             double T = temp_default(T0, k);
             State s_new = N(s, T);
-            if (acceptance(E(s_new) - E(s), T) > drand48())
+            if (acceptance(E(s_new) - E(s), T) > (double)rand()/RAND_MAX)
                 s = s_new;
         }
     }

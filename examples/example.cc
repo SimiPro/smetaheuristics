@@ -3,6 +3,8 @@
 #include <sim_annealing.h>
 #include <Eigen/Core>
 
+constexpr double PI = 3.14;
+
 // schwefel function
 double E(const Eigen::VectorXd &x) {
     double sum = 0;
@@ -15,7 +17,7 @@ double E(const Eigen::VectorXd &x) {
 Eigen::VectorXd N(const Eigen::VectorXd &x, const double T) {
     Eigen::VectorXd x_new(x.rows());
     for (int i = 0; i < x.rows(); i++) {
-        x_new[i] = std::fmod(x[i] + T*std::tan(M_PI * (drand48() - 0.5)), 1.);
+        x_new[i] = std::fmod(x[i] + T*std::tan( * ((double)rand()/RAND_MAX - 0.5)), 1.);
     }
     return x_new;
 }
