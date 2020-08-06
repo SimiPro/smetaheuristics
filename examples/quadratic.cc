@@ -39,29 +39,28 @@ State N_rand(const State &x, const double T) {
     return new_x;
 }
 
+State init_state() {
+    State x;
+    x[0] = -2;
+    x[1]= 1;
+    return x;
+}
+
 
 
 int main() {
 
-    State x;
-    x[0] = 4;
-    x[1]= 4;
-
-    State x_sim = x;
-    smeta::sim_annealing<State>(x_sim, E, N_rand, 1e4, 1e5);
-
-    State x_rand = x;
-    smeta::randopt<State>(x_rand, E, N_rand, 1e3);
-
     std::cout << "Rosenbruck function looking for value 0" << std::endl;
-    std::cout << "Init: " << E(x) << std::endl;
-    std::cout << x << std::endl;
+    std::cout << "Init: " << E(init_state()) << std::endl;
+    std::cout << init_state() << std::endl;
 
-    std::cout << "Simulated Annealing: " << E(x_sim) << std::endl;
-    std::cout << x_sim << std::endl;
+    State x_sim = init_state();
+    smeta::sim_annealing<State>(x_sim, E, N_rand, 1e4, 1e5, true);
 
-    std::cout << "Random Opt: " << E(x_rand) <<  std::endl;
-    std::cout << x_rand << std::endl;
+
+    State x_rand = init_state();
+    smeta::randopt<State>(x_rand, E, N_rand, 1e3, true);
+
 
 
 

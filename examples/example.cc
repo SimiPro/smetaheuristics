@@ -17,7 +17,7 @@ double E(const Eigen::VectorXd &x) {
 Eigen::VectorXd N(const Eigen::VectorXd &x, const double T) {
     Eigen::VectorXd x_new(x.rows());
     for (int i = 0; i < x.rows(); i++) {
-        x_new[i] = std::fmod(x[i] + T*std::tan( * ((double)rand()/RAND_MAX - 0.5)), 1.);
+        x_new[i] = std::fmod(x[i] + T*std::tan(M_PI * ((double)rand()/RAND_MAX - 0.5)), 1.);
     }
     return x_new;
 }
@@ -30,7 +30,7 @@ int main() {
     x.setRandom();
     x *= 500; // range of [-500, 500]
 
-    smeta::sim_annealing<Eigen::VectorXd>(x, E, N, 100000);
+    smeta::sim_annealing<Eigen::VectorXd>(x, E, N, 10000000);
 
     std::cout << "Schwefel solution  (should be around 420)" << std::endl;
     std::cout << x << std::endl;
