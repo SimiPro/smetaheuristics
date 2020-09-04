@@ -43,6 +43,7 @@ namespace smeta {
 
         State best_overall = s;
         double best_val_overall = E(s);
+        double started_at = best_val_overall;
 
         for (int k = 0; k < k_max; k++) {
             double T = temp_default(T0, k);
@@ -63,8 +64,8 @@ namespace smeta {
 
         }
       if (verbose) {
-          std::cout << "End simulated annealing with best overall value: " << best_val_overall << std::endl;
-          std::cout << "and state: " << best_overall << std::endl;
+          std::cout << "Simulated annealing improved from: " << started_at << " to: " << best_val_overall << std::endl;
+         // std::cout << "and state: " << best_overall << std::endl;
       }
       s = best_overall;
     }
